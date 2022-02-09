@@ -47,15 +47,24 @@ class Authentication extends StatelessWidget {
     switch (loginState) {
       case ApplicationLoginState.loggedOut:
         return Row(
+          
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 24, bottom: 8),
-              child: StyledButton(
-                onPressed: () {
-                  startLoginFlow();
-                },
-                child: const Text('SIGN IN FOR RSVP'),
-              ),
+            Flex(
+              
+              direction: Axis.horizontal,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(width: 100.00,child: Text(""),height: 100.00,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, bottom: 8),
+                  child: StyledButton(
+                    onPressed: () {
+                      startLoginFlow();
+                    },
+                    child: const Text('SIGN IN FOR RSVP'),
+                  ),
+                )
+              ],
             ),
           ],
         );

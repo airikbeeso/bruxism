@@ -60,23 +60,52 @@ class HomePage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SliderDrawer(
-          appBar: const SliderAppBar(
-              appBarColor: Colors.white,
-              title: Text(
-                'Bruxism',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-              )),
-          key: key,
-          sliderOpenSize: 179,
-          slider: _SliderView(
-            onItemClick: (title) {
-              // _key.currentState!.closeSlider();
-              
-            },
+            appBar: const SliderAppBar(
+                appBarColor: Colors.white,
+                title: Text(
+                  'Bruxism',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                )),
             key: key,
-          ),
-          child: const Text("ahun"),
-        ),
+            sliderOpenSize: 179,
+            slider: _SliderView(
+              onItemClick: (title) {
+                // _key.currentState!.closeSlider();
+              },
+              key: key,
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width,
+                      child: GridView.count(
+                        padding: const EdgeInsets.all(20.0),
+                        crossAxisSpacing: 10.0,
+                        mainAxisSpacing: 10.0,
+                        crossAxisCount: 4,
+                        children: [
+                          Consumer<ApplicationState>(
+                            builder: (context, appState, _) => Authentication(
+                                loginState: appState.loginState,
+                                email: appState.email,
+                                startLoginFlow: appState.startLoginFlow,
+                                verifyEmail: appState.verifyEmail,
+                                signInWithEmailAndPassword:
+                                    appState.signInWithEmailAndPassword,
+                                cancelRegistration: appState.cancelRegistration,
+                                registerAccount: appState.registerAccount,
+                                signOut: appState.signOut),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )),
       ),
     );
   }
@@ -139,7 +168,7 @@ class _SliderView extends StatelessWidget {
           _SliderMenuItem(
             title: 'Settings',
             iconData: Icons.settings,
-            onTap: clickOnTab,
+            onTap: clickOnTab2,
           ),
         ],
       ),
@@ -147,7 +176,14 @@ class _SliderView extends StatelessWidget {
   }
 }
 
-clickOnTab(name) {}
+clickOnTab2(name) {
+  print("name2 $name");
+  print(name);
+}
+
+clickOnTab(name) {
+  print(name);
+}
 
 class _SliderMenuItem extends StatelessWidget {
   final String title;

@@ -63,6 +63,15 @@ class Authentication extends StatelessWidget {
                     },
                     child: const Text('SIGN IN FOR RSVP'),
                   ),
+                ),
+                 Padding(
+                  padding: const EdgeInsets.only(left: 24, bottom: 8),
+                  child: StyledButton(
+                    onPressed: () {
+                      startLoginFlow();
+                    },
+                    child: const Text('REGISTER FOR RSVP'),
+                  ),
                 )
               ],
             ),

@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_const
 
 import 'dart:async';
+import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 
 import 'package:firebase_auth/firebase_auth.dart'; // new
@@ -48,6 +49,8 @@ class App extends StatelessWidget {
   }
 }
 
+int _selectedDestination = 0;
+
 class HomePage extends StatelessWidget {
   // const HomePage({Key? key}) : super(key: key);
   // final GlobalKey<SliderDrawerState> _key = GlobalKey<SliderDrawerState>();
@@ -68,42 +71,48 @@ class HomePage extends StatelessWidget {
                 )),
             key: key,
             sliderOpenSize: 179,
-            slider: _SliderView(
-              onItemClick: (title) {
-                // _key.currentState!.closeSlider();
-              },
-              key: key,
+            slider: Consumer<ApplicationState>(
+              builder: (context, appState, _) => _SliderView(
+                onItemClick: appState.startLoginFlow,
+                key: key,
+              ),
             ),
             child: Column(
               children: [
-                Expanded(
-                  child: Center(
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      child: GridView.count(
-                        padding: const EdgeInsets.all(20.0),
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        crossAxisCount: 4,
-                        children: [
-                          Consumer<ApplicationState>(
-                            builder: (context, appState, _) => Authentication(
-                                loginState: appState.loginState,
-                                email: appState.email,
-                                startLoginFlow: appState.startLoginFlow,
-                                verifyEmail: appState.verifyEmail,
-                                signInWithEmailAndPassword:
-                                    appState.signInWithEmailAndPassword,
-                                cancelRegistration: appState.cancelRegistration,
-                                registerAccount: appState.registerAccount,
-                                signOut: appState.signOut),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                )
+                _selectedDestination == 0
+                    ? Expanded(
+                        child: Center(
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            child: GridView.count(
+                              padding: const EdgeInsets.all(10.0),
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: 10.0,
+                              crossAxisCount: 2,
+                              children: [
+                                Consumer<ApplicationState>(
+                                  builder: (context, appState, _) =>
+                                      Authentication(
+                                          loginState: appState.loginState,
+                                          email: appState.email,
+                                          startLoginFlow:
+                                              appState.startLoginFlow,
+                                          verifyEmail: appState.verifyEmail,
+                                          signInWithEmailAndPassword: appState
+                                              .signInWithEmailAndPassword,
+                                          cancelRegistration:
+                                              appState.cancelRegistration,
+                                          registerAccount:
+                                              appState.registerAccount,
+                                          signOut: appState.signOut),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : const SizedBox(child: Text(""), height: 10)
               ],
             )),
       ),
@@ -114,8 +123,9 @@ class HomePage extends StatelessWidget {
 void onmyclick(name) {}
 
 class _SliderView extends StatelessWidget {
-  final Function(String)? onItemClick;
+  final Function()? onItemClick;
   const _SliderView({Key? key, this.onItemClick}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -149,6 +159,7 @@ class _SliderView extends StatelessWidget {
             title: 'Home',
             iconData: Icons.home,
             onTap: clickOnTab,
+            onItemClick: oneTime(onItemClick)
           ),
           _SliderMenuItem(
             title: 'Your Alerts',
@@ -175,25 +186,28 @@ class _SliderView extends StatelessWidget {
     );
   }
 }
-
+oneTime(onItemClick) {}
 clickOnTab2(name) {
-  print("name2 $name");
-  print(name);
+  _selectedDestination = 2;
 }
 
 clickOnTab(name) {
-  print(name);
+  _selectedDestination = 1;
 }
 
 class _SliderMenuItem extends StatelessWidget {
   final String title;
   final IconData iconData;
+  final Function()? onItemClick;
   final Function(String)? onTap;
   const _SliderMenuItem(
       {Key? key,
       required this.title,
       required this.iconData,
-      required this.onTap})
+      required this.onTap,
+      this.onItemClick
+      
+      })
       : super(key: key);
 
   @override
@@ -203,7 +217,10 @@ class _SliderMenuItem extends StatelessWidget {
             style: const TextStyle(
                 color: Colors.black, fontFamily: 'BalsamiqSans_Regular')),
         leading: Icon(iconData, color: Colors.black),
-        onTap: () => onTap?.call(title));
+        onTap: () => onTap?.call(title),onLongPress: onItemClick?.call(),
+        
+        
+        );
   }
 }
 

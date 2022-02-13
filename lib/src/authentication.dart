@@ -112,49 +112,110 @@ class Authentication extends StatelessWidget {
           },
         );
       case ApplicationLoginState.loggedIn:
-        return Column(
-          children: [
-            Card(
-              elevation: 2.0,
+        return GridView.count(
+          primary: false,
+          padding: const EdgeInsets.all(10),
+          crossAxisSpacing: 2,
+          mainAxisSpacing: 2,
+          crossAxisCount: 2,
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(8),
               child: Column(
                 children: [
                   Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Card(elevation: 2.0, child: Text("test")),
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.settings,
+                            color: Colors.white, size: 50),
+                      ),
+                      const InkWell(
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Your Alert",
+                            style: TextStyle(fontSize: 34),
+                          ),
+                        ),
                       )
                     ],
                   )
                 ],
               ),
+              color: Colors.teal[100],
             ),
-            Card(
-              elevation: 2.0,
-              child: Column(
-                children: [
-                  Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text("TEXT2"),
-                      )
-                    ],
-                  )
-                ],
-              ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Heed not the rabble'),
+              color: Colors.teal[200],
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, bottom: 8),
-              child: StyledButton(
-                onPressed: () {
-                  signOut();
-                },
-                child: const Text('LOGOUT'),
-              ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Sound of screams but the'),
+              color: Colors.teal[300],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Who scream'),
+              color: Colors.teal[400],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Revolution is coming...'),
+              color: Colors.teal[500],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Revolution, they...'),
+              color: Colors.teal[600],
             ),
           ],
         );
+
+      // Column(
+      //   children: [
+      //     Card(
+      //       elevation: 2.0,
+      //       child: Column(
+      //         children: [
+      //           Row(
+      //             children: const [
+      //               Padding(
+      //                 padding: EdgeInsets.all(10),
+      //                 child: Card(elevation: 2.0, child: Text("Text")),
+      //               )
+      //             ],
+      //           )
+      //         ],
+      //       ),
+      //     ),
+      //     Card(
+      //       elevation: 2.0,
+      //       child: Column(
+      //         children: [
+      //           Row(
+      //             children: const [
+      //               Padding(
+      //                 padding: EdgeInsets.all(10),
+      //                 child: Text("Text"),
+      //               )
+      //             ],
+      //           )
+      //         ],
+      //       ),
+      //     ),
+      //     Padding(
+      //       padding: const EdgeInsets.only(left: 0, bottom: 8),
+      //       child: StyledButton(
+      //         onPressed: () {
+      //           signOut();
+      //         },
+      //         child: const Text('LOGOUT'),
+      //       ),
+      //     ),
+      //   ],
+      // );
       default:
         return Row(
           children: const [

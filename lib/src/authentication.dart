@@ -10,17 +10,16 @@ enum ApplicationLoginState {
 }
 
 class Authentication extends StatelessWidget {
-  const Authentication({
-    required this.loginState,
-    required this.email,
-    required this.startLoginFlow,
-    required this.verifyEmail,
-    required this.signInWithEmailAndPassword,
-    required this.cancelRegistration,
-    required this.registerAccount,
-    required this.signOut,
-    required this.testFunction
-  });
+  const Authentication(
+      {required this.loginState,
+      required this.email,
+      required this.startLoginFlow,
+      required this.verifyEmail,
+      required this.signInWithEmailAndPassword,
+      required this.cancelRegistration,
+      required this.registerAccount,
+      required this.signOut,
+      required this.testFunction});
 
   final ApplicationLoginState loginState;
   final String? email;
@@ -49,14 +48,16 @@ class Authentication extends StatelessWidget {
     switch (loginState) {
       case ApplicationLoginState.loggedOut:
         return Row(
-          
           children: [
             Flex(
-              
               direction: Axis.horizontal,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(width: 100.00,child: Text(""),height: 100.00,),
+                const SizedBox(
+                  width: 100.00,
+                  child: Text(""),
+                  height: 100.00,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 24, bottom: 8),
                   child: StyledButton(
@@ -66,7 +67,7 @@ class Authentication extends StatelessWidget {
                     child: const Text('SIGN IN FOR RSVP'),
                   ),
                 ),
-                 Padding(
+                Padding(
                   padding: const EdgeInsets.only(left: 24, bottom: 8),
                   child: StyledButton(
                     onPressed: () {
@@ -111,10 +112,40 @@ class Authentication extends StatelessWidget {
           },
         );
       case ApplicationLoginState.loggedIn:
-        return Row(
+        return Column(
           children: [
+            Card(
+              elevation: 2.0,
+              child: Column(
+                children: [
+                  Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Card(elevation: 2.0, child: Text("test")),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Card(
+              elevation: 2.0,
+              child: Column(
+                children: [
+                  Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text("TEXT2"),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.only(left: 24, bottom: 8),
+              padding: const EdgeInsets.only(left: 0, bottom: 8),
               child: StyledButton(
                 onPressed: () {
                   signOut();

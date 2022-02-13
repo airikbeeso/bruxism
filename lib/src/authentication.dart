@@ -19,6 +19,7 @@ class Authentication extends StatelessWidget {
     required this.cancelRegistration,
     required this.registerAccount,
     required this.signOut,
+    required this.testFunction
   });
 
   final ApplicationLoginState loginState;
@@ -41,6 +42,7 @@ class Authentication extends StatelessWidget {
     void Function(Exception e) error,
   ) registerAccount;
   final void Function() signOut;
+  final void Function(String) testFunction;
 
   @override
   Widget build(BuildContext context) {

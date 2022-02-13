@@ -73,7 +73,7 @@ class HomePage extends StatelessWidget {
             sliderOpenSize: 179,
             slider: Consumer<ApplicationState>(
               builder: (context, appState, _) => _SliderView(
-                onItemClick: appState.startLoginFlow,
+                onItemClick: appState.testFunction,
                 key: key,
               ),
             ),
@@ -105,7 +105,10 @@ class HomePage extends StatelessWidget {
                                               appState.cancelRegistration,
                                           registerAccount:
                                               appState.registerAccount,
-                                          signOut: appState.signOut),
+                                          signOut: appState.signOut,
+                                          testFunction: appState.testFunction,
+                                          
+                                          ),
                                 )
                               ],
                             ),
@@ -123,8 +126,8 @@ class HomePage extends StatelessWidget {
 void onmyclick(name) {}
 
 class _SliderView extends StatelessWidget {
-  final Function()? onItemClick;
-  const _SliderView({Key? key, this.onItemClick}) : super(key: key);
+  final void Function(String) onItemClick;
+  const _SliderView({Key? key, required this.onItemClick}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -134,20 +137,20 @@ class _SliderView extends StatelessWidget {
       padding: const EdgeInsets.only(top: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const <Widget>[
-          SizedBox(
+        children:  <Widget>[
+          const SizedBox(
             height: 30,
           ),
-          CircleAvatar(
+          const CircleAvatar(
             radius: 65,
             backgroundColor: Colors.grey,
             child: CircleAvatar(
                 radius: 60, backgroundImage: AssetImage('assets/m.png')),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text(
+          const Text(
             'Nick',
             style: TextStyle(
               color: Colors.black,
@@ -158,25 +161,24 @@ class _SliderView extends StatelessWidget {
           _SliderMenuItem(
             title: 'Home',
             iconData: Icons.home,
-            onTap: clickOnTab,
-            onItemClick: oneTime(onItemClick)
+            onTap: onItemClick,
           ),
-          _SliderMenuItem(
+          const _SliderMenuItem(
             title: 'Your Alerts',
             iconData: Icons.alarm,
             onTap: clickOnTab,
           ),
-          _SliderMenuItem(
+          const _SliderMenuItem(
             title: 'Evening Diary',
             iconData: Icons.face_retouching_natural_outlined,
             onTap: clickOnTab,
           ),
-          _SliderMenuItem(
+          const _SliderMenuItem(
             title: 'Charts',
             iconData: Icons.bar_chart,
             onTap: clickOnTab,
           ),
-          _SliderMenuItem(
+          const _SliderMenuItem(
             title: 'Settings',
             iconData: Icons.settings,
             onTap: clickOnTab2,
@@ -186,7 +188,7 @@ class _SliderView extends StatelessWidget {
     );
   }
 }
-oneTime(onItemClick) {}
+void oneTime() {}
 clickOnTab2(name) {
   _selectedDestination = 2;
 }
@@ -204,8 +206,9 @@ class _SliderMenuItem extends StatelessWidget {
       {Key? key,
       required this.title,
       required this.iconData,
-      required this.onTap,
+      required this.onTap, 
       this.onItemClick
+
       
       })
       : super(key: key);
@@ -217,7 +220,7 @@ class _SliderMenuItem extends StatelessWidget {
             style: const TextStyle(
                 color: Colors.black, fontFamily: 'BalsamiqSans_Regular')),
         leading: Icon(iconData, color: Colors.black),
-        onTap: () => onTap?.call(title),onLongPress: onItemClick?.call(),
+        onTap: () => onTap?.call(title),
         
         
         );
@@ -355,6 +358,25 @@ class ApplicationState extends ChangeNotifier {
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;
     notifyListeners();
+  }
+  void testFunction(name) {
+    switch(name) {
+
+      case 'Home' : 
+      //back to home
+      break;
+      case 'Your Alerts': 
+      //set the alert
+      break;
+      case 'Evening Diary':
+      // list the alert
+      break;
+      case 'Charts': break;
+      case 'Settings': break;     
+
+      default: break;
+    }
+    startLoginFlow();
   }
 
   Future<void> verifyEmail(

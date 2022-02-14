@@ -17,6 +17,8 @@ import 'src/authentication.dart'; // new
 
 import 'src/widgets.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(

@@ -83,36 +83,24 @@ class HomePage extends StatelessWidget {
                     ? Expanded(
                         child: Center(
                           child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width,
-                            child: GridView.count(
-                              padding: const EdgeInsets.all(10.0),
-                              crossAxisSpacing: 10.0,
-                              mainAxisSpacing: 10.0,
-                              crossAxisCount: 2,
-                              children: [
-                                Consumer<ApplicationState>(
-                                  builder: (context, appState, _) =>
-                                      Authentication(
-                                          loginState: appState.loginState,
-                                          email: appState.email,
-                                          startLoginFlow:
-                                              appState.startLoginFlow,
-                                          verifyEmail: appState.verifyEmail,
-                                          signInWithEmailAndPassword: appState
-                                              .signInWithEmailAndPassword,
-                                          cancelRegistration:
-                                              appState.cancelRegistration,
-                                          registerAccount:
-                                              appState.registerAccount,
-                                          signOut: appState.signOut,
-                                          testFunction: appState.testFunction,
-                                          
-                                          ),
-                                )
-                              ],
-                            ),
-                          ),
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width,
+                              child: Consumer<ApplicationState>(
+                                builder: (context, appState, _) =>
+                                    Authentication(
+                                  loginState: appState.loginState,
+                                  email: appState.email,
+                                  startLoginFlow: appState.startLoginFlow,
+                                  verifyEmail: appState.verifyEmail,
+                                  signInWithEmailAndPassword:
+                                      appState.signInWithEmailAndPassword,
+                                  cancelRegistration:
+                                      appState.cancelRegistration,
+                                  registerAccount: appState.registerAccount,
+                                  signOut: appState.signOut,
+                                  testFunction: appState.testFunction,
+                                ),
+                              )),
                         ),
                       )
                     : const SizedBox(child: Text(""), height: 10)
@@ -137,7 +125,7 @@ class _SliderView extends StatelessWidget {
       padding: const EdgeInsets.only(top: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children:  <Widget>[
+        children: <Widget>[
           const SizedBox(
             height: 30,
           ),
@@ -188,6 +176,7 @@ class _SliderView extends StatelessWidget {
     );
   }
 }
+
 void oneTime() {}
 clickOnTab2(name) {
   _selectedDestination = 2;
@@ -206,24 +195,19 @@ class _SliderMenuItem extends StatelessWidget {
       {Key? key,
       required this.title,
       required this.iconData,
-      required this.onTap, 
-      this.onItemClick
-
-      
-      })
+      required this.onTap,
+      this.onItemClick})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: Text(title,
-            style: const TextStyle(
-                color: Colors.black, fontFamily: 'BalsamiqSans_Regular')),
-        leading: Icon(iconData, color: Colors.black),
-        onTap: () => onTap?.call(title),
-        
-        
-        );
+      title: Text(title,
+          style: const TextStyle(
+              color: Colors.black, fontFamily: 'BalsamiqSans_Regular')),
+      leading: Icon(iconData, color: Colors.black),
+      onTap: () => onTap?.call(title),
+    );
   }
 }
 
@@ -359,24 +343,31 @@ class ApplicationState extends ChangeNotifier {
     _loginState = ApplicationLoginState.emailAddress;
     notifyListeners();
   }
+
   void testFunction(name) {
-    switch(name) {
+    switch (name) {
+      case 'Home':
+        //back to home
+        break;
+      case 'Your Alerts':
+        //set the alert
+        _loginState = ApplicationLoginState.alertPage;
+        print("show alert");
+        notifyListeners();
 
-      case 'Home' : 
-      //back to home
-      break;
-      case 'Your Alerts': 
-      //set the alert
-      break;
+        break;
       case 'Evening Diary':
-      // list the alert
-      break;
-      case 'Charts': break;
-      case 'Settings': break;     
+        // list the alert
+        break;
+      case 'Charts':
+        break;
+      case 'Settings':
+        break;
 
-      default: break;
+      default:
+        break;
     }
-    startLoginFlow();
+    //startLoginFlow();
   }
 
   Future<void> verifyEmail(

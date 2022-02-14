@@ -1,3 +1,4 @@
+import 'package:bruxism/main.dart';
 import 'package:flutter/material.dart';
 import 'widgets.dart';
 
@@ -7,6 +8,7 @@ enum ApplicationLoginState {
   register,
   password,
   loggedIn,
+  alertPage
 }
 
 class Authentication extends StatelessWidget {
@@ -46,6 +48,43 @@ class Authentication extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (loginState) {
+      case ApplicationLoginState.alertPage:
+        return Container(
+          alignment: Alignment.center,
+          child: Stack(
+              children: <Widget>[
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  height: 80,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('Selected date: $_selectedDate'),
+                      Text('Selected date count: $_dateCount'),
+                      Text('Selected range: $_range'),
+                      Text('Selected ranges count: $_rangeCount')
+                    ],
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  top: 80,
+                  right: 0,
+                  bottom: 0,
+                  child: SfDateRangePicker(
+                    onSelectionChanged: _onSelectionChanged,
+                    selectionMode: DateRangePickerSelectionMode.range,
+                    initialSelectedRange: PickerDateRange(
+                        DateTime.now().subtract(const Duration(days: 4)),
+                        DateTime.now().add(const Duration(days: 3))),
+                  ),
+                )
+              ],
+        ))
       case ApplicationLoginState.loggedOut:
         return Row(
           children: [
@@ -114,30 +153,33 @@ class Authentication extends StatelessWidget {
       case ApplicationLoginState.loggedIn:
         return GridView.count(
           primary: false,
-          padding: const EdgeInsets.all(10),
-          crossAxisSpacing: 2,
-          mainAxisSpacing: 2,
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 5,
           crossAxisCount: 2,
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
               child: Column(
                 children: [
-                  Row(
+                  Column(
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          testFunction("Your Alerts");
+                        },
                         icon: const Icon(Icons.settings,
-                            color: Colors.white, size: 50),
+                            color: Colors.white, size: 45),
                       ),
                       const InkWell(
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
+                        child: Center(
+                            child: Padding(
+                          padding: EdgeInsets.only(top: 30),
                           child: Text(
                             "Your Alert",
-                            style: TextStyle(fontSize: 34),
+                            style: TextStyle(fontSize: 26),
                           ),
-                        ),
+                        )),
                       )
                     ],
                   )

@@ -1,6 +1,10 @@
 import 'package:bruxism/main.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'widgets.dart';
+import 'package:intl/intl.dart';
 
 enum ApplicationLoginState {
   loggedOut,
@@ -47,44 +51,79 @@ class Authentication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String _selectedDate = '';
+    String _dateCount = '';
+    String _range = '';
+    String _rangeCount = '';
+
+    late TextEditingController _controller1;
+    late TextEditingController _controller2;
+    late TextEditingController _controller3;
+    late TextEditingController _controller4;
+    String _valueChanged1 = '';
+    String _valueToValidate1 = '';
+    String _valueSaved1 = '';
+    String _valueChanged2 = '';
+    String _valueToValidate2 = '';
+    String _valueSaved2 = '';
+    String _valueChanged3 = '';
+    String _valueToValidate3 = '';
+    String _valueSaved3 = '';
+    String _valueChanged4 = '';
+    String _valueToValidate4 = '';
+    String _valueSaved4 = '';
+
+    _controller1 = TextEditingController(text: DateTime.now().toString());
+    _controller2 = TextEditingController(text: DateTime.now().toString());
+    _controller3 = TextEditingController(text: DateTime.now().toString());
+
+    String lsHour = TimeOfDay.now().hour.toString().padLeft(2, '0');
+    String lsMinute = TimeOfDay.now().minute.toString().padLeft(2, '0');
+    _controller4 = TextEditingController(text: '$lsHour:$lsMinute');
+
+    // void _onSelectionChanged(args) {
+    //   if (args.value is PickerDateRange) {
+    //     _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
+    //         // ignore: lines_longer_than_80_chars
+    //         ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
+    //   } else if (args.value is DateTime) {
+    //     _selectedDate = args.value.toString();
+    //   } else if (args.value is List<DateTime>) {
+    //     _dateCount = args.value.length.toString();
+    //   } else {
+    //     _rangeCount = args.value.length.toString();
+    //   }
+    // }
+
     switch (loginState) {
       case ApplicationLoginState.alertPage:
+        TimeOfDay selectedTime = TimeOfDay.now();
+
+        _selectTime(BuildContext context) async {
+          final TimeOfDay? timeOfDay = await showTimePicker(
+            context: context,
+            initialTime: selectedTime,
+            initialEntryMode: TimePickerEntryMode.dial,
+          );
+          if (timeOfDay != null && timeOfDay != selectedTime) {
+            selectedTime = timeOfDay;
+          }
+        }
         return Container(
-          alignment: Alignment.center,
-          child: Stack(
+            alignment: Alignment.center,
+            child: Stack(
+              alignment: Alignment.topCenter,
               children: <Widget>[
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  height: 80,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('Selected date: $_selectedDate'),
-                      Text('Selected date count: $_dateCount'),
-                      Text('Selected range: $_range'),
-                      Text('Selected ranges count: $_rangeCount')
-                    ],
-                  ),
+                const Text("Which time would you like the Alerts ending up?"),
+                ElevatedButton(
+                  onPressed: () {
+                    _selectTime(context);
+                  },
+                  child: const Text("Choose Time"),
                 ),
-                Positioned(
-                  left: 0,
-                  top: 80,
-                  right: 0,
-                  bottom: 0,
-                  child: SfDateRangePicker(
-                    onSelectionChanged: _onSelectionChanged,
-                    selectionMode: DateRangePickerSelectionMode.range,
-                    initialSelectedRange: PickerDateRange(
-                        DateTime.now().subtract(const Duration(days: 4)),
-                        DateTime.now().add(const Duration(days: 3))),
-                  ),
-                )
+                Text("${selectedTime.hour}:${selectedTime.minute}"),
               ],
-        ))
+            ));
       case ApplicationLoginState.loggedOut:
         return Row(
           children: [

@@ -19,16 +19,21 @@ class Authentication extends StatelessWidget {
   const Authentication(
       {required this.loginState,
       required this.email,
+      required this.tday,
       required this.startLoginFlow,
       required this.verifyEmail,
       required this.signInWithEmailAndPassword,
       required this.cancelRegistration,
       required this.registerAccount,
       required this.signOut,
-      required this.testFunction});
+      required this.testFunction,
+      required this.timeFunction});
 
   final ApplicationLoginState loginState;
+
   final String? email;
+  final TimeOfDay? tday;
+
   final void Function() startLoginFlow;
   final void Function(
     String email,
@@ -48,6 +53,7 @@ class Authentication extends StatelessWidget {
   ) registerAccount;
   final void Function() signOut;
   final void Function(String) testFunction;
+  final void Function(TimeOfDay) timeFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +104,11 @@ class Authentication extends StatelessWidget {
     switch (loginState) {
       case ApplicationLoginState.alertPage:
         TimeOfDay selectedTime = TimeOfDay.now();
+        if(null != tday)
+        {
+          selectedTime = tday!;
+
+        }
 
         _selectTime(BuildContext context) async {
           final TimeOfDay? timeOfDay = await showTimePicker(
@@ -107,12 +118,13 @@ class Authentication extends StatelessWidget {
           );
           if (timeOfDay != null && timeOfDay != selectedTime) {
             selectedTime = timeOfDay;
+            timeFunction(selectedTime);
           }
         }
         return Container(
             alignment: Alignment.center,
-            child: Stack(
-              alignment: Alignment.topCenter,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text("Which time would you like the Alerts ending up?"),
                 ElevatedButton(
@@ -121,7 +133,9 @@ class Authentication extends StatelessWidget {
                   },
                   child: const Text("Choose Time"),
                 ),
-                Text("${selectedTime.hour}:${selectedTime.minute}"),
+                tday == null
+                    ? Text("${selectedTime.hour}:${selectedTime.minute}")
+                    : Text("${tday?.hour}:${tday?.minute}"),
               ],
             ));
       case ApplicationLoginState.loggedOut:

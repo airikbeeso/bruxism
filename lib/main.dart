@@ -18,6 +18,7 @@ import 'src/authentication.dart'; // new
 import 'src/widgets.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+
 void main() {
   runApp(
     ChangeNotifierProvider(
@@ -90,6 +91,7 @@ class HomePage extends StatelessWidget {
                                     Authentication(
                                   loginState: appState.loginState,
                                   email: appState.email,
+                                  tday: appState.timeOfDay,
                                   startLoginFlow: appState.startLoginFlow,
                                   verifyEmail: appState.verifyEmail,
                                   signInWithEmailAndPassword:
@@ -99,6 +101,7 @@ class HomePage extends StatelessWidget {
                                   registerAccount: appState.registerAccount,
                                   signOut: appState.signOut,
                                   testFunction: appState.testFunction,
+                                  timeFunction: appState.timeFunction
                                 ),
                               )),
                         ),
@@ -298,6 +301,8 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
   Future<void> init() async {
+
+    
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -331,9 +336,14 @@ class ApplicationState extends ChangeNotifier {
   }
 
   ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
+
   ApplicationLoginState get loginState => _loginState;
+
   String? _email;
   String? get email => _email;
+  TimeOfDay? _tday;
+  TimeOfDay? get timeOfDay => _tday;
+
 
   StreamSubscription<QuerySnapshot>? _guestBookSubscription;
   // List<GuestBookMessage> _guestBookMessages = [];
@@ -344,6 +354,14 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void timeFunction(datetime) {
+    datetime ??= DateTime.now();
+    _tday = datetime;
+
+    notifyListeners();
+    
+
+  }
   void testFunction(name) {
     switch (name) {
       case 'Home':
